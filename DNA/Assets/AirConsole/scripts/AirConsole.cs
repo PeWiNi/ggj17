@@ -1089,7 +1089,7 @@ namespace NDream.AirConsole {
 				
 				if (Settings.debug.error) {
 					Debug.LogError (e.Message);
-				}
+				}   
 			}
 			
 		}
