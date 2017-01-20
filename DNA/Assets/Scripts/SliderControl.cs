@@ -21,12 +21,8 @@ public class SliderControl : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
-                if (hit.transform.name==transform.name)
-            {
-                float TouchPosY = Camera.main.ScreenToWorldPoint(Input.mousePosition).y;
-                Vector3 target = new Vector3(transform.position.x, TouchPosY, transform.position.z);
-                transform.position = Vector3.MoveTowards(transform.position, target, 10 * Time.deltaTime);
-            }
+                if (hit.transform.name == transform.name)
+                    transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
         }
 
     }
