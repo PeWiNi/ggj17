@@ -107,7 +107,7 @@ public class BodyPartChooser : MonoBehaviour {
 
                 torsoChoice.transform.parent = torsoSpace.transform;
                 //int armPairs = newTorsoChoice -( newTorsoChoice / 5);
-                int armPairs = newTorsoChoice % 7;
+                int armPairs = newTorsoChoice % 5;
                 foreach (GameObject arm in arms)
                     Destroy(arm);
                 arms.Clear();
