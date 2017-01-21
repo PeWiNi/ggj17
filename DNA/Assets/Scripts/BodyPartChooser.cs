@@ -8,6 +8,8 @@ public class BodyPartChooser : MonoBehaviour {
 
     public bool isHead;
     public bool isTorso;
+    public bool isButt;
+
     public List<GameObject> potentialHeads;
    // public Object[] potentialHeads;
     public GameObject headSpace;
@@ -25,6 +27,10 @@ public class BodyPartChooser : MonoBehaviour {
     public int prevTorsoChoice = 0;
 
     public List<GameObject> arms;
+
+    public List<GameObject> potentialButts;
+    public GameObject buttSpace;
+
     // Use this for initialization
     void Start () {
 
@@ -43,11 +49,13 @@ public class BodyPartChooser : MonoBehaviour {
         torsoSpace = GameObject.Find("Torso");
         selectTorsos();
 
+        buttSpace = GameObject.Find("Butt");
+        selectButts();
     }
 	
 	// Update is called once per frame
 	void Update () {
-
+        #region Head
         if (isHead)
         {
             if (potentialHeads.Count <= 0)
@@ -80,7 +88,8 @@ public class BodyPartChooser : MonoBehaviour {
                 }
             }
         }
-
+        #endregion
+        #region Torso
         if (isTorso)
         {
             if (torsoSpace == null)
@@ -111,6 +120,7 @@ public class BodyPartChooser : MonoBehaviour {
                 foreach (GameObject arm in arms)
                     Destroy(arm);
                 arms.Clear();
+                gameObject.GetComponent<Limbs>().pairs = new List<GameObject>();
                 for (int i = 0; i < armPairs; i++)
                 {
                     GameObject armPair = new GameObject();
@@ -121,7 +131,11 @@ public class BodyPartChooser : MonoBehaviour {
             }
 
         }
+        #endregion
 
+        #region Butt
+
+        #endregion
     }
 
 
@@ -143,7 +157,26 @@ public class BodyPartChooser : MonoBehaviour {
             i += sameTagcounter;
 
         }
-
-
     }
+
+    void selectButts()
+    {
+        for (int i = 0; i < potentialHeads.Count; i++)
+        {
+            int sameTagcounter = 1;
+            for (int j = i + 1; j < potentialHeads.Count; j++)
+            {
+                if (potentialHeads[i].transform.tag == potentialHeads[j].transform.tag)
+                    sameTagcounter++;
+                else break;
+            }
+
+            potentialButts.Add(potentialHeads[Random.Range(i, i + sameTagcounter)]);
+
+
+            i += sameTagcounter;
+
+        }
+    }
+
 }
