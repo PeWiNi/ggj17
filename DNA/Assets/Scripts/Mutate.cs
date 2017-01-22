@@ -30,11 +30,12 @@ public class Mutate : MonoBehaviour {
             }
             // 5: Butt/lower body shape
             if (picker.isButt) {
-                //picker.newButtChoice = sequence[5];
+                picker.newButtChoice = sequence[5];
+                // 6: Leg count
+                picker.GetComponent<Limbs>().newLegsChoice = sequence[6];
             }
         }
         // 4: FullBody Scaling (!head)
-        // 6: Leg count
         // 7: Tail(s)
         // 8: Orientation of bodyParts
         // 9: Accessories
