@@ -9,6 +9,7 @@ public class Mutate : MonoBehaviour {
     // Use this for initialization
     void Start () {
         if (sequence != null) ApplySequences();
+        StartCoroutine(ExecuteAfterTime(5));
     }
 	
 	// Update is called once per frame
@@ -16,8 +17,7 @@ public class Mutate : MonoBehaviour {
 	}
 
     public void ApplySequences() {
-        BodyPartChooser[] shapePickers = GetComponentsInChildren<BodyPartChooser>();
-        foreach (var picker in shapePickers) {
+        foreach (var picker in GetComponentsInChildren<BodyPartChooser>()) {
             // 1: Head shape
             if (picker.isHead) {
                 picker.newHeadChoice = sequence[1];
@@ -27,15 +27,20 @@ public class Mutate : MonoBehaviour {
                 picker.newTorsoChoice = sequence[2];
                 // 3: Arms 
                 picker.GetComponent<Limbs>().newArmsChoice = sequence[3];
+                // 4: FullBody Scaling (!head)
+                ScaleGO(picker.transform, sequence[4], sequence[4] % 3 == 1);
             }
             // 5: Butt/lower body shape
             if (picker.isButt) {
                 picker.newButtChoice = sequence[5];
                 // 6: Leg count
                 picker.GetComponent<Limbs>().newLegsChoice = sequence[6];
+                // 4: FullBody Scaling (!head)
+                ScaleGO(picker.transform, sequence[4], sequence[4] % 3 == 2);
             }
+
+            picker.gameObject.AddComponent<Rigidbody>();
         }
-        // 4: FullBody Scaling (!head)
         // 7: Tail(s)
         // 8: Orientation of bodyParts
         // 9: Accessories
@@ -54,8 +59,8 @@ public class Mutate : MonoBehaviour {
         this.sequence = sequence;
     }
 
-    void ScaleGO(Transform go, float value) {
-        value = (Mathf.Abs(value) / 10) + 1;
+    void ScaleGO(Transform go, float value, bool smallScale) {
+        value = (Mathf.Abs(value) / (smallScale ? 50 : 5)) + 1;
         if (go != null) {
             go.localScale = new Vector3(value, value, value);
         }
@@ -65,5 +70,14 @@ public class Mutate : MonoBehaviour {
         value = Mathf.Abs(value) / 10;
         if (go != null)
             go.mass = value;
+    }
+
+    IEnumerator ExecuteAfterTime(float time) {
+        yield return new WaitForSeconds(time);
+
+        foreach (var rigid in GetComponentsInChildren<Rigidbody>()) {
+            Destroy(rigid);
+        }
+        gameObject.AddComponent<Rigidbody>();
     }
 }
