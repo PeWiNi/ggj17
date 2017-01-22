@@ -113,6 +113,7 @@ public class BodyPartChooser : MonoBehaviour {
                     GameObject armPair = new GameObject();
                     armPair.transform.name = "armPair" + i.ToString();
                     armPair.transform.parent = transform;
+                    armPair.AddComponent<FollowTransform>().trans=transform;
                     arms.Add(armPair);
                 }
             }

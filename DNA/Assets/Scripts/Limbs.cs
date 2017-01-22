@@ -34,6 +34,8 @@ public class Limbs : MonoBehaviour {
             if (prevArmsChoice != newArmsChoice)
             {
                 prevArmsChoice = newArmsChoice;
+                foreach (GameObject arm in pairs)
+                    Destroy(arm);
                 createArmPairs();
             }
         if (body.isButt)
@@ -41,8 +43,10 @@ public class Limbs : MonoBehaviour {
             if (prevLegsChoice != newLegsChoice)
             {
                 prevLegsChoice = newLegsChoice;
-              
-                //legs.Clear();
+
+                foreach (GameObject leg in legs)
+                    Destroy(leg);
+                legs.Clear();
                 createLegs(body.transform.GetChild(0),newLegsChoice);
             }
         }
@@ -50,12 +54,13 @@ public class Limbs : MonoBehaviour {
 
     public void createArmPairs()
     {
-    
+        pairs.Clear();
         if (body.arms.Count < 1)
         {
            if(body.transform.childCount>1) if (body.transform.GetChild(1) != null)
                     Destroy(body.transform.GetChild(1).gameObject);
             pairs.Clear();
+            
             GameObject tempArm = Instantiate(body.potentialTorsos[Random.Range(0, body.potentialTorsos.Count)],
                     body.transform.position, body.transform.rotation) as GameObject;
             tempArm.transform.parent = body.transform;
@@ -64,15 +69,28 @@ public class Limbs : MonoBehaviour {
 
         else foreach (GameObject pair in body.arms)
             {
+                Vector3 oneArmPosition = new Vector3(transform.position.x - 0.5f, 
+                                            transform.position.y+(pairs.Count/2-1)*0.5f, transform.position.z);
+                Quaternion oneArmRotation = new Quaternion(transform.rotation.x, transform.rotation.y,40f, 1);
+                Vector3 newScale = Vector3.one * (2f / (body.arms.Count));
 
+                /*GameObject tempArm = Instantiate(body.potentialHeads[Random.Range(0, body.potentialHeads.Count)],
+                    pair.transform.position, pair.transform.rotation) as GameObject; */
                 GameObject tempArm = Instantiate(body.potentialHeads[Random.Range(0, body.potentialHeads.Count)],
-                    pair.transform.position, pair.transform.rotation) as GameObject;
+                oneArmPosition, oneArmRotation) as GameObject;
                 tempArm.transform.parent = pair.transform;
-                pairs.Add(tempArm);
-                tempArm = Instantiate(tempArm, pair.transform.position, pair.transform.rotation) as GameObject;
-                tempArm.transform.parent = pair.transform;
-                pairs.Add(tempArm);
+                tempArm.transform.localScale = newScale;
 
+                oneArmRotation.z = -40;
+                oneArmPosition.x = transform.position.x + 0.5f;
+                oneArmPosition.y = transform.position.y + (pairs.Count / 2 - 1) * 0.5f;
+                pairs.Add(tempArm);
+                // tempArm = Instantiate(tempArm, pair.transform.position, pair.transform.rotation) as GameObject;
+                tempArm = Instantiate(tempArm, oneArmPosition, oneArmRotation) as GameObject;
+                tempArm.transform.parent = pair.transform;
+                tempArm.transform.localScale = newScale;
+                pairs.Add(tempArm);
+                
             }
 
     }
@@ -101,11 +119,14 @@ public class Limbs : MonoBehaviour {
             tempLeg = Instantiate(leg, newShape.transform.position, newShape.transform.rotation) as GameObject;
             tempLeg.transform.localScale = newScale;
             tempLeg.transform.parent = newShape.transform;
-
+            tempLeg.AddComponent<FollowTransform>().trans = transform;
+         
             legs.Add(tempLeg);
         }
        
 
 
     }
+
+   
 }
