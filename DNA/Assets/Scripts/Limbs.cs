@@ -81,7 +81,7 @@ public class Limbs : MonoBehaviour {
     {
         int legCountModifier=1;
         
-        switch (newShape.tag)
+       /* switch (newShape.tag)
         {
             case "cube": legCountModifier=body.arms.Count*4; break;
             case "cone": legCountModifier = body.arms.Count *2; break;
@@ -92,8 +92,8 @@ public class Limbs : MonoBehaviour {
             case "sphere": legCountModifier = body.arms.Count * 6; break;
 
         }
-
-        int scaleModifier = legCountModifier * legCount;
+        */
+        int scaleModifier = (legCountModifier * legCount==0)? 1: legCountModifier * legCount ;
         Vector3 newScale = Vector3.one *( 1f / (float)scaleModifier);
         GameObject tempLeg;
         for (int i = 0; i < legCount * legCountModifier; i++)
