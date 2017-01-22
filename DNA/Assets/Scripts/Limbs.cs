@@ -45,8 +45,7 @@ public class Limbs : MonoBehaviour {
 
                 foreach (GameObject leg in legs)
                     Destroy(leg);
-                legs.Clear();
-                createLegs(body.transform.GetChild(0),newLegsChoice);
+                createLegs(body.transform,newLegsChoice);
             }
         }
 
@@ -109,19 +108,20 @@ public class Limbs : MonoBehaviour {
     public void createLegs(Transform newShape, int legCount)
     {
         int legCountModifier=1;
-        
-       /* switch (newShape.tag)
-        {
-            case "cube": legCountModifier=body.arms.Count*4; break;
-            case "cone": legCountModifier = body.arms.Count *2; break;
-            case "cylinder": legCountModifier =(int) ( (float)body.arms.Count * 2.5f); break;
-            case "helix": legCountModifier = (body.arms.Count/2)>0? body.arms.Count / 2 : 1; break;
-            case "pyramid": legCountModifier = body.arms.Count * 4; break;
-            case "torus": legCountModifier = (body.arms.Count / 3) > 0 ? body.arms.Count / 3 : 1; break;
-            case "sphere": legCountModifier = body.arms.Count * 6; break;
 
-        }
-        */
+        legs.Clear();
+        /* switch (newShape.tag)
+         {
+             case "cube": legCountModifier=body.arms.Count*4; break;
+             case "cone": legCountModifier = body.arms.Count *2; break;
+             case "cylinder": legCountModifier =(int) ( (float)body.arms.Count * 2.5f); break;
+             case "helix": legCountModifier = (body.arms.Count/2)>0? body.arms.Count / 2 : 1; break;
+             case "pyramid": legCountModifier = body.arms.Count * 4; break;
+             case "torus": legCountModifier = (body.arms.Count / 3) > 0 ? body.arms.Count / 3 : 1; break;
+             case "sphere": legCountModifier = body.arms.Count * 6; break;
+
+         }
+         */
         int scaleModifier = (legCountModifier * legCount==0)? 1: legCountModifier * legCount ;
         Vector3 newScale = Vector3.one *( 1f / (float)scaleModifier);
         GameObject tempLeg;

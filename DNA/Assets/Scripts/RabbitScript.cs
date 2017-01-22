@@ -43,4 +43,10 @@ public class RabbitScript : MonoBehaviour {
             ret = true;
         return ret;
     }
+
+    public void Reset(Vector3 pos = new Vector3())
+    {
+        transform.position = pos + 5 * Vector3.up;
+        currentNode = 0;
+    }
 }

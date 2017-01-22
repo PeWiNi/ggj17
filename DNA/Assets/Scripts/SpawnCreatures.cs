@@ -14,7 +14,7 @@ public class SpawnCreatures : MonoBehaviour {
             tempCreature.GetComponent<Mutate>().SetSequence(user);
             if (rabbit)
             {
-                rabbit.transform.position = spawnPos + 5 * Vector3.up;
+                rabbit.Reset(spawnPos);
                 tempCreature.AddComponent<ChaseTransform>().target = rabbit.gameObject;
             }
         }
