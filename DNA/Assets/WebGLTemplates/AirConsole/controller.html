@@ -53,53 +53,94 @@
             me.airconsole.onDeviceStateChange = function (device_id, device_data) {
                 console.log("onDeviceStateChange", device_id, device_data);
             };
+
+            /**
+             * Here we are adding support for mouse events manually.
+             * WE STRONGLY ENCOURAGE YOU TO USE THE AIRCONSOLE CONTROLS LIBRARY
+             * WHICH IS EVEN BETTER (BUT WE DONT WANT TO BLOAT THE CODE HERE).
+             * https://github.com/AirConsole/airconsole-controls/
+             * 
+             * NO MATTER WHAT YOU DECIDE, DO NOT USE ONCLICK HANDLERS.
+             * THEY HAVE A 200MS DELAY!
+             */
+            if (!("ontouchstart" in document.createElement("div"))) {
+                var elements = document.getElementsByTagName("*");
+                for (var i = 0; i < elements.length; ++i) {
+                    var element = elements[i];
+                    var ontouchstart = element.getAttribute("ontouchstart");
+                    if (ontouchstart) {
+                        element.setAttribute("onmousedown", ontouchstart);
+                    }
+                    var ontouchend = element.getAttribute("ontouchend");
+                    if (ontouchend) {
+                        element.setAttribute("onmouseup", ontouchend);
+                    }
+                }
+            }
         }
 
         App.prototype.sendMessageToScreen = function (msg) {
             this.airconsole.message(AirConsole.SCREEN, msg);
         }
+
+        function sendSeqToScreen() {
+            window.app.sendMessageToScreen("sequence "  +
+            document.getElementById('sequence1').value  + " " + document.getElementById('sequence2').value + " " +
+            document.getElementById('sequence3').value  + " " + document.getElementById('sequence4').value + " " +
+            document.getElementById('sequence5').value  + " " + document.getElementById('sequence6').value + " " +
+            document.getElementById('sequence7').value  + " " + document.getElementById('sequence8').value + " " +
+            document.getElementById('sequence9').value  + " " + document.getElementById('sequence10').value + " " +
+            document.getElementById('sequence11').value + " " + document.getElementById('sequence12').value);
+        }
     </script>
 </head>
 <body onload="window.app = new App()">
+    <div>
+        <button class="button" style="width:100%" ontouchstart="window.app.sendMessageToScreen('StartGame')">Start Game</button>
+    </div>
     <div class="container" style="margin-top:50px; height:80%">
         <div class="inner"><input type="hidden" /></div>
         <div class="inner">
-            <input type="range" name="sequence1" orient="vertical" style="height:40%" min="0" max="20" value="10" onchange="window.app.sendMessageToScreen(this.name + ' ' + this.value)" />
+            <input type="range" id="sequence1" orient="vertical" style="height:40%" min="0" max="20" value="10" />
+            <!--<input type="range" name="sequence1" orient="vertical" style="height:40%" min="0" max="20" value="10" onchange="window.app.sendMessageToScreen(this.name + ' ' + this.value)" />-->
         </div>
         <div class="inner">
-            <input type="range" name="sequence2" orient="vertical" style="height:60%" min="0" max="20" value="10" onchange="window.app.sendMessageToScreen(this.name + ' ' + this.value)" />
+            <input type="range" id="sequence2" orient="vertical" style="height:60%" min="0" max="20" value="10" />
         </div>
         <div class="inner">
-            <input type="range" name="sequence3" orient="vertical" style="height:80%" min="0" max="20" value="10" onchange="window.app.sendMessageToScreen(this.name + ' ' + this.value)" />
+            <input type="range" id="sequence3" orient="vertical" style="height:80%" min="0" max="20" value="10" />
         </div>
         <div class="inner">
-            <input type="range" name="sequence4" orient="vertical" style="height:80%" min="0" max="20" value="10" onchange="window.app.sendMessageToScreen(this.name + ' ' + this.value)" />
+            <input type="range" id="sequence4" orient="vertical" style="height:80%" min="0" max="20" value="10" />
         </div>
         <div class="inner">
-            <input type="range" name="sequence5" orient="vertical" style="height:60%" min="0" max="20" value="10" onchange="window.app.sendMessageToScreen(this.name + ' ' + this.value)" />
+            <input type="range" id="sequence5" orient="vertical" style="height:60%" min="0" max="20" value="10" />
         </div>
         <div class="inner">
-            <input type="range" name="sequence6" orient="vertical" style="height:40%" min="0" max="20" value="10" onchange="window.app.sendMessageToScreen(this.name + ' ' + this.value)" />
+            <input type="range" id="sequence6" orient="vertical" style="height:40%" min="0" max="20" value="10" />
         </div>
         <div class="inner"><input type="hidden" /></div>
         <div class="inner">
-            <input type="range" name="sequence7" orient="vertical" style="height:40%" min="0" max="20" value="10" onchange="window.app.sendMessageToScreen(this.name + ' ' + this.value)" />
+            <input type="range" id="sequence7" orient="vertical" style="height:40%" min="0" max="20" value="10" />
         </div>
         <div class="inner">
-            <input type="range" name="sequence8" orient="vertical" style="height:60%" min="0" max="20" value="10" onchange="window.app.sendMessageToScreen(this.name + ' ' + this.value)" />
+            <input type="range" id="sequence8" orient="vertical" style="height:60%" min="0" max="20" value="10" />
         </div>
         <div class="inner">
-            <input type="range" name="sequence9" orient="vertical" style="height:80%" min="0" max="20" value="10" onchange="window.app.sendMessageToScreen(this.name + ' ' + this.value)" />
+            <input type="range" id="sequence9" orient="vertical" style="height:80%" min="0" max="20" value="10" />
         </div>
         <div class="inner">
-            <input type="range" name="sequence10" orient="vertical" style="height:80%" min="0" max="20" value="10" onchange="window.app.sendMessageToScreen(this.name + ' ' + this.value)" />
+            <input type="range" id="sequence10" orient="vertical" style="height:80%" min="0" max="20" value="10" />
         </div>
         <div class="inner">
-            <input type="range" name="sequence11" orient="vertical" style="height:60%" min="0" max="20" value="10" onchange="window.app.sendMessageToScreen(this.name + ' ' + this.value)" />
+            <input type="range" id="sequence11" orient="vertical" style="height:60%" min="0" max="20" value="10" />
         </div>
         <div class="inner">
-            <input type="range" name="sequence12" orient="vertical" style="height:40%" min="0" max="20" value="10" onchange="window.app.sendMessageToScreen(this.name + ' ' + this.value)" />
+            <input type="range" id="sequence12" orient="vertical" style="height:40%" min="0" max="20" value="10" />
         </div>
+    </div>
+    <div>
+        <button class="button" style="width:100%" ontouchstart="sendSeqToScreen()">Save</button>
     </div>
 </body>
 </html>

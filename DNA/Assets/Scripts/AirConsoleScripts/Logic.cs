@@ -68,6 +68,9 @@ public class Logic : MonoBehaviour {
                 userSequences.Remove(from);
             userSequences.Add(from, userSequence);
         }
+        if ((string)data == "StartGame") {
+            GetComponent<SpawnCreatures>().SpawnCreature();
+        }
     }
 
 	void OnConnect (int device_id) {

@@ -22,7 +22,7 @@ public class Limbs : MonoBehaviour {
         pairs = new List<GameObject>();
         legs = new List<GameObject>();
         body = gameObject.GetComponent<BodyPartChooser>();
-        leg = Resources.Load("Parts/leg") as GameObject;
+        leg = Resources.Load("leg") as GameObject;
         
 	}
 
