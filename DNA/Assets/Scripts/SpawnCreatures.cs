@@ -8,15 +8,19 @@ public class SpawnCreatures : MonoBehaviour {
 
     public void SpawnCreature() {
         if (!spawnPrefab && logic.userSequences != null) return;
+        foreach(var crap in GameObject.FindGameObjectsWithTag("Player")) {
+            Destroy(crap);
+        }
         RabbitScript rabbit = GameObject.Find("Rabbit").GetComponent<RabbitScript>();
         foreach(var user in logic.userSequences.Values) {
             GameObject tempCreature = Instantiate(spawnPrefab, spawnPos, Quaternion.identity) as GameObject;
             tempCreature.GetComponent<Mutate>().SetSequence(user);
-            if (rabbit)
-            {
-                rabbit.Reset(spawnPos);
+            if (rabbit) {
                 tempCreature.AddComponent<ChaseTransform>().target = rabbit.gameObject;
             }
+        }
+        if(rabbit) {
+            rabbit.Reset(spawnPos);
         }
     }
 }

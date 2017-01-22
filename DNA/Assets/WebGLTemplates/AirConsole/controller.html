@@ -13,7 +13,7 @@
             -moz-border-radius: 11;
             border-radius: 6px;
             width: 100%;
-            text-align: left;
+            text-align: center;
         }
         input[type=range][orient=vertical]
         {
@@ -98,7 +98,7 @@
     <div>
         <button class="button" style="width:100%" ontouchstart="window.app.sendMessageToScreen('StartGame')">Start Game</button>
     </div>
-    <div class="container" style="margin-top:50px; height:80%">
+    <div class="container" style="margin-top:40px; height:70%">
         <div class="inner"><input type="hidden" /></div>
         <div class="inner">
             <input type="range" id="sequence1" orient="vertical" style="height:40%" min="0" max="20" value="10" />
@@ -140,7 +140,7 @@
         </div>
     </div>
     <div>
-        <button class="button" style="width:100%" ontouchstart="sendSeqToScreen()">Save</button>
+        <button class="button" style="width:100%" ontouchstart="sendSeqToScreen()">Join</button>
     </div>
 </body>
 </html>

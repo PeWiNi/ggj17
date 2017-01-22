@@ -9,7 +9,8 @@ public class Mutate : MonoBehaviour {
     // Use this for initialization
     void Start () {
         if (sequence != null) ApplySequences();
-        StartCoroutine(ExecuteAfterTime(1));
+        //StartCoroutine(ExecuteAfterTime(1));
+        gameObject.AddComponent<Rigidbody>();
     }
 	
 	// Update is called once per frame
@@ -39,7 +40,6 @@ public class Mutate : MonoBehaviour {
                 ScaleGO(picker.transform, sequence[4], sequence[4] % 3 == 2);
             }
 
-            picker.gameObject.AddComponent<Rigidbody>();
         }
         // 7: Tail(s)
         // 8: Orientation of bodyParts

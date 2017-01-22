@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4000011166623978}
   - component: {fileID: 33000012421716306}
   - component: {fileID: 23000012088359638}
+  - component: {fileID: 64868192762767872}
   m_Layer: 0
   m_Name: pTorus3
   m_TagString: torus
@@ -78,4 +79,18 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010125335556}
+  m_Mesh: {fileID: 4300028, guid: 622add6bfd436a94089fd9df8103a3cf, type: 3}
+--- !u!64 &64868192762767872
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010125335556}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300028, guid: 622add6bfd436a94089fd9df8103a3cf, type: 3}

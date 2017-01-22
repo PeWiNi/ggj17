@@ -6,6 +6,8 @@ public class RabbitScript : MonoBehaviour {
 
     public List<Vector3> nodes;
     int currentNode;
+    List<Transform> creature;
+    Vector3 lookAt;
 
     public float speed = 2f;
     float threshold = .0025f;
@@ -13,10 +15,12 @@ public class RabbitScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
         currentNode = 0;
+        creature = new List<Transform>();
     }
 	
 	void FixedUpdate () {
         MoveTowardsNextNode();
+        LookAtCreatures();
     }
 
     void MoveTowardsNextNode() {
@@ -47,6 +51,27 @@ public class RabbitScript : MonoBehaviour {
     public void Reset(Vector3 pos = new Vector3())
     {
         transform.position = pos + 5 * Vector3.up;
+        GameObject[] gos = GameObject.FindGameObjectsWithTag("Player");
+        creature.Clear();
+        foreach(var go in gos)
+        {
+            creature.Add(go.transform);
+        }
         currentNode = 0;
+    }
+    void LookAtCreatures()
+    {
+        GetComponentInChildren<Camera>().transform.LookAt(lookAtPos());
+    }
+    Vector3 lookAtPos()
+    {
+        Vector3 center = new Vector3(0, 0, 0);
+        float count = 0;
+        foreach (var zombieInrange in creature)
+        {
+            center += zombieInrange.transform.position;
+            count++;
+        }
+        return center / count;
     }
 }
