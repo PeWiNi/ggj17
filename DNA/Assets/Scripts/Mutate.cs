@@ -9,7 +9,7 @@ public class Mutate : MonoBehaviour {
     // Use this for initialization
     void Start () {
         if (sequence != null) ApplySequences();
-        StartCoroutine(ExecuteAfterTime(5));
+        StartCoroutine(ExecuteAfterTime(1));
     }
 	
 	// Update is called once per frame
