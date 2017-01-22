@@ -31,6 +31,10 @@ public class BodyPartChooser : MonoBehaviour {
     public List<GameObject> potentialButts;
     public GameObject buttSpace;
 
+    [Range(0, 6)]
+    public int newButtChoice = 0;
+    public int prevButtChoice = 0;
+
     // Use this for initialization
     void Start () {
 
@@ -134,7 +138,23 @@ public class BodyPartChooser : MonoBehaviour {
         #endregion
 
         #region Butt
-
+        if (isButt)
+        {
+            if (buttSpace == null)
+            {
+                buttSpace = GameObject.Find("Butt");
+                return;
+            }
+            if (prevButtChoice != newButtChoice)
+            {
+                prevButtChoice = newButtChoice;
+                Vector3 pos = buttSpace.transform.position;
+                Quaternion rot = buttSpace.transform.rotation;
+                GameObject buttChoice = Instantiate(potentialTorsos[newButtChoice], pos, rot) as GameObject;
+                buttChoice.transform.parent = buttSpace.transform;
+                if (buttSpace.transform.childCount > 1) Destroy(buttSpace.transform.GetChild(0).gameObject);
+            }
+        }
         #endregion
     }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class Limbs : MonoBehaviour {
 
+    GameObject leg;
     public BodyPartChooser body;
     public List<GameObject> pairs;
 
@@ -11,10 +12,18 @@ public class Limbs : MonoBehaviour {
     public int newArmsChoice = 0;
     public int prevArmsChoice = 0;
 
+
+    public List<GameObject> legs;
+    [Range(0, 20)]
+    public int newLegsChoice = 0;
+    public int prevLegsChoice = 0;
+
     // Use this for initialization
     void Start () {
         pairs = new List<GameObject>();
+        legs = new List<GameObject>();
         body = gameObject.GetComponent<BodyPartChooser>();
+        leg = Resources.Load("Parts/leg") as GameObject;
         
 	}
 
@@ -29,15 +38,18 @@ public class Limbs : MonoBehaviour {
             }
         if (body.isButt)
         {
+            if (prevLegsChoice != newLegsChoice)
+            {
+                prevLegsChoice = newLegsChoice;
+                legs.Clear();
+                createLegs(body.buttSpace.transform.GetChild(0),newLegsChoice);
+            }
         }
     }
 
     public void createArmPairs()
     {
-        // pairs = new List<GameObject>();
-        /*foreach (GameObject arm in pairs)
-            Destroy(arm);
-        pairs.Clear();*/
+    
         if (body.arms.Count < 1)
         {
            if(body.torsoSpace.transform.childCount>1) if (body.torsoSpace.transform.GetChild(1) != null)
@@ -64,7 +76,27 @@ public class Limbs : MonoBehaviour {
 
     }
 
-    public void createLegs()
+    public void createLegs(Transform newShape, int legCount)
     {
+        int legCountModifier=1;
+        
+        switch (newShape.tag)
+        {
+            case "cube": legCountModifier=body.arms.Count*4; break;
+            case "cone": legCountModifier = body.arms.Count *2; break;
+            case "cylinder": legCountModifier =(int) ( (float)body.arms.Count * 2.5f); break;
+            case "helix": legCountModifier = (body.arms.Count/2)>0? body.arms.Count / 2 : 1; break;
+            case "pyramid": legCountModifier = body.arms.Count * 4; break;
+            case "torus": legCountModifier = (body.arms.Count / 3) > 0 ? body.arms.Count / 3 : 1; break;
+            case "sphere": legCountModifier = body.arms.Count * 6; break;
+
+        }
+
+        int scaleModifier = legCountModifier * legCount;
+        Vector3 newScale = Vector3.one *( 1f / (float)scaleModifier);
+
+       
+
+
     }
 }
