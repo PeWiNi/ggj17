@@ -9,7 +9,7 @@ public class BodyPartChooser : MonoBehaviour {
     public bool isHead;
     public bool isTorso;
     public bool isButt;
-
+    public int headIndex;
     public List<GameObject> potentialHeads;
    // public Object[] potentialHeads;
 
@@ -74,7 +74,7 @@ public class BodyPartChooser : MonoBehaviour {
                     //headSpace = null;
                     GameObject headChoice = Instantiate(potentialHeads[newHeadChoice], pos, rot) as GameObject;
                     //GameObject toDestroy = headSpace.transform.GetChild(0).gameObject;
-
+                    headIndex = newHeadChoice;
                     headChoice.transform.parent = transform;
                     if (transform.childCount > 1) Destroy(transform.GetChild(0).gameObject);
                 }
@@ -113,7 +113,9 @@ public class BodyPartChooser : MonoBehaviour {
                     GameObject armPair = new GameObject();
                     armPair.transform.name = "armPair" + i.ToString();
                     armPair.transform.parent = transform;
+                 //   armPair.transform.rotation= Quaternion.Euler(0, 0, 40);
                     armPair.AddComponent<FollowTransform>().trans=transform;
+                   armPair.GetComponent<FollowTransform>().displacement = Vector3.zero;
                     arms.Add(armPair);
                 }
             }
@@ -131,7 +133,7 @@ public class BodyPartChooser : MonoBehaviour {
                 Quaternion rot = transform.rotation;
                 GameObject buttChoice = Instantiate(potentialTorsos[newButtChoice], pos, rot) as GameObject;
                 buttChoice.transform.parent = transform;
-                if (transform.childCount > 1) Destroy(transform.GetChild(0).gameObject);
+                if (transform.childCount > 2 ) Destroy(transform.GetChild(1).gameObject);
             }
         }
         #endregion

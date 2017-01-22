@@ -17,8 +17,7 @@ public class Limbs : MonoBehaviour {
     [Range(0, 20)]
     public int newLegsChoice = 0;
     public int prevLegsChoice = 0;
-
-    // Use this for initialization
+   
     void Start () {
         pairs = new List<GameObject>();
         legs = new List<GameObject>();
@@ -50,6 +49,8 @@ public class Limbs : MonoBehaviour {
                 createLegs(body.transform.GetChild(0),newLegsChoice);
             }
         }
+
+
     }
 
     public void createArmPairs()
@@ -71,26 +72,36 @@ public class Limbs : MonoBehaviour {
             {
                 Vector3 oneArmPosition = new Vector3(transform.position.x - 0.5f, 
                                             transform.position.y+(pairs.Count/2-1)*0.5f, transform.position.z);
-                Quaternion oneArmRotation = new Quaternion(transform.rotation.x, transform.rotation.y,40f, 1);
-                Vector3 newScale = Vector3.one * (2f / (body.arms.Count));
+                Quaternion oneArmRotation = Quaternion.Euler(-20, -20, 45);
+                Vector3 newScale = Vector3.one *3f / (body.arms.Count);
 
                 /*GameObject tempArm = Instantiate(body.potentialHeads[Random.Range(0, body.potentialHeads.Count)],
                     pair.transform.position, pair.transform.rotation) as GameObject; */
                 GameObject tempArm = Instantiate(body.potentialHeads[Random.Range(0, body.potentialHeads.Count)],
-                oneArmPosition, oneArmRotation) as GameObject;
+                oneArmPosition, Quaternion.identity) as GameObject;
                 tempArm.transform.parent = pair.transform;
                 tempArm.transform.localScale = newScale;
+                tempArm.transform.localRotation = oneArmRotation;
 
-                oneArmRotation.z = -40;
+                tempArm.AddComponent<FollowTransform>().trans = transform;
+                tempArm.GetComponent<FollowTransform>().displacement = new Vector3(oneArmPosition.x, 
+                    oneArmPosition.y / 100f, oneArmPosition.z / 75f) ;
+
+                oneArmRotation = Quaternion.Euler(-20, -20, -45);
                 oneArmPosition.x = transform.position.x + 0.5f;
                 oneArmPosition.y = transform.position.y + (pairs.Count / 2 - 1) * 0.5f;
                 pairs.Add(tempArm);
                 // tempArm = Instantiate(tempArm, pair.transform.position, pair.transform.rotation) as GameObject;
-                tempArm = Instantiate(tempArm, oneArmPosition, oneArmRotation) as GameObject;
+                tempArm = Instantiate(tempArm, oneArmPosition, Quaternion.identity) as GameObject;
                 tempArm.transform.parent = pair.transform;
                 tempArm.transform.localScale = newScale;
+                tempArm.transform.localRotation = oneArmRotation;
+                tempArm.GetComponent<FollowTransform>().displacement = new Vector3(oneArmPosition.x, 
+                    oneArmPosition.y / 100f, oneArmPosition.z / 75f);
+
                 pairs.Add(tempArm);
-                
+
+
             }
 
     }
