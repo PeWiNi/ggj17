@@ -12,7 +12,6 @@ public class BodyPartChooser : MonoBehaviour {
 
     public List<GameObject> potentialHeads;
    // public Object[] potentialHeads;
-    public GameObject headSpace;
 
     [Range(0, 23)]
     public int newHeadChoice=0;
@@ -20,7 +19,6 @@ public class BodyPartChooser : MonoBehaviour {
 
     
     public List <GameObject> potentialTorsos;
-    public GameObject torsoSpace;
 
     [Range(0, 34)]
     public int newTorsoChoice = 0;
@@ -29,7 +27,6 @@ public class BodyPartChooser : MonoBehaviour {
     public List<GameObject> arms;
 
     public List<GameObject> potentialButts;
-    public GameObject buttSpace;
 
     [Range(0, 6)]
     public int newButtChoice = 0;
@@ -43,17 +40,13 @@ public class BodyPartChooser : MonoBehaviour {
        
         arms = new List<GameObject>();
 
-        headSpace = GameObject.Find("Head");
-
         foreach (Object o in Resources.LoadAll("Parts"))
         {
             potentialHeads.Add((GameObject)o);
         }
-
-        torsoSpace = GameObject.Find("Torso");
+     
         selectTorsos();
-
-        buttSpace = GameObject.Find("Butt");
+    
         selectButts();
     }
 	
@@ -70,25 +63,20 @@ public class BodyPartChooser : MonoBehaviour {
                 }
                 selectTorsos();
             }
-
-            if (headSpace == null)
-            {
-                headSpace = GameObject.Find("Head");
-                return;
-            }
+ 
             else
             {
                 if (prevHeadChoice != newHeadChoice)
                 {
                     prevHeadChoice = newHeadChoice;
-                    Vector3 pos = headSpace.transform.position;
-                    Quaternion rot = headSpace.transform.rotation;
+                    Vector3 pos = transform.position;
+                    Quaternion rot = transform.rotation;
                     //headSpace = null;
                     GameObject headChoice = Instantiate(potentialHeads[newHeadChoice], pos, rot) as GameObject;
                     //GameObject toDestroy = headSpace.transform.GetChild(0).gameObject;
 
-                    headChoice.transform.parent = headSpace.transform;
-                    if (headSpace.transform.childCount > 1) Destroy(headSpace.transform.GetChild(0).gameObject);
+                    headChoice.transform.parent = transform;
+                    if (transform.childCount > 1) Destroy(transform.GetChild(0).gameObject);
                 }
             }
         }
@@ -96,29 +84,24 @@ public class BodyPartChooser : MonoBehaviour {
         #region Torso
         if (isTorso)
         {
-            if (torsoSpace == null)
-            {
-                torsoSpace = GameObject.Find("Torso");
-                return;
-            }
 
             if (prevTorsoChoice != newTorsoChoice)
             {
                 prevTorsoChoice = newTorsoChoice;
-                Vector3 pos = torsoSpace.transform.position;
-                Quaternion rot = torsoSpace.transform.rotation;
+                Vector3 pos = transform.position;
+                Quaternion rot = transform.rotation;
                 //headSpace = null;
                 GameObject torsoChoice = Instantiate(potentialTorsos[newTorsoChoice%7], pos, rot) as GameObject;
                 //GameObject toDestroy = headSpace.transform.GetChild(0).gameObject;
 
                
-                if (torsoSpace.transform.childCount > 0)
-                    for(int i=0;i<torsoSpace.transform.childCount;i++)
-                        if (!torsoSpace.transform.GetChild(i).name.StartsWith("armPair"))
-                            Destroy(torsoSpace.transform.GetChild(i).gameObject);
+                if (transform.childCount > 0)
+                    for(int i=0;i<transform.childCount;i++)
+                        if (!transform.GetChild(i).name.StartsWith("armPair"))
+                            Destroy(transform.GetChild(i).gameObject);
 
 
-                torsoChoice.transform.parent = torsoSpace.transform;
+                torsoChoice.transform.parent = transform;
                 //int armPairs = newTorsoChoice -( newTorsoChoice / 5);
                 int armPairs = newTorsoChoice % 5;
                 foreach (GameObject arm in arms)
@@ -129,7 +112,7 @@ public class BodyPartChooser : MonoBehaviour {
                 {
                     GameObject armPair = new GameObject();
                     armPair.transform.name = "armPair" + i.ToString();
-                    armPair.transform.parent = torsoSpace.transform;
+                    armPair.transform.parent = transform;
                     arms.Add(armPair);
                 }
             }
@@ -140,19 +123,14 @@ public class BodyPartChooser : MonoBehaviour {
         #region Butt
         if (isButt)
         {
-            if (buttSpace == null)
-            {
-                buttSpace = GameObject.Find("Butt");
-                return;
-            }
             if (prevButtChoice != newButtChoice)
             {
                 prevButtChoice = newButtChoice;
-                Vector3 pos = buttSpace.transform.position;
-                Quaternion rot = buttSpace.transform.rotation;
+                Vector3 pos = transform.position;
+                Quaternion rot = transform.rotation;
                 GameObject buttChoice = Instantiate(potentialTorsos[newButtChoice], pos, rot) as GameObject;
-                buttChoice.transform.parent = buttSpace.transform;
-                if (buttSpace.transform.childCount > 1) Destroy(buttSpace.transform.GetChild(0).gameObject);
+                buttChoice.transform.parent = transform;
+                if (transform.childCount > 1) Destroy(transform.GetChild(0).gameObject);
             }
         }
         #endregion

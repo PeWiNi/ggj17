@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Limbs : MonoBehaviour {
 
-    GameObject leg;
+    public GameObject leg;
     public BodyPartChooser body;
     public List<GameObject> pairs;
 
@@ -41,8 +41,9 @@ public class Limbs : MonoBehaviour {
             if (prevLegsChoice != newLegsChoice)
             {
                 prevLegsChoice = newLegsChoice;
-                legs.Clear();
-                createLegs(body.buttSpace.transform.GetChild(0),newLegsChoice);
+              
+                //legs.Clear();
+                createLegs(body.transform.GetChild(0),newLegsChoice);
             }
         }
     }
@@ -52,12 +53,12 @@ public class Limbs : MonoBehaviour {
     
         if (body.arms.Count < 1)
         {
-           if(body.torsoSpace.transform.childCount>1) if (body.torsoSpace.transform.GetChild(1) != null)
-                    Destroy(body.torsoSpace.transform.GetChild(1).gameObject);
+           if(body.transform.childCount>1) if (body.transform.GetChild(1) != null)
+                    Destroy(body.transform.GetChild(1).gameObject);
             pairs.Clear();
             GameObject tempArm = Instantiate(body.potentialTorsos[Random.Range(0, body.potentialTorsos.Count)],
-                    body.torsoSpace.transform.position, body.torsoSpace.transform.rotation) as GameObject;
-            tempArm.transform.parent = body.torsoSpace.transform;
+                    body.transform.position, body.transform.rotation) as GameObject;
+            tempArm.transform.parent = body.transform;
             pairs.Add(tempArm);
         }
 
@@ -94,7 +95,15 @@ public class Limbs : MonoBehaviour {
 
         int scaleModifier = legCountModifier * legCount;
         Vector3 newScale = Vector3.one *( 1f / (float)scaleModifier);
+        GameObject tempLeg;
+        for (int i = 0; i < legCount * legCountModifier; i++)
+        {
+            tempLeg = Instantiate(leg, newShape.transform.position, newShape.transform.rotation) as GameObject;
+            tempLeg.transform.localScale = newScale;
+            tempLeg.transform.parent = newShape.transform;
 
+            legs.Add(tempLeg);
+        }
        
 
 
