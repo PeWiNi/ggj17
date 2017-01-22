@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class SpawnCreatures : MonoBehaviour {
     public Logic logic;
@@ -17,8 +18,9 @@ public class SpawnCreatures : MonoBehaviour {
 	}
 
     public void SpawnCreature() {
-        foreach(var user in logic.userSequences) {
-
+        foreach(var user in logic.userSequences.Values) {
+            GameObject tempCreature = Instantiate(spawnPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            tempCreature.GetComponent<Mutate>().SetSequence(user);
         }
     }
 }

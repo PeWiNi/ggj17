@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Mutate : MonoBehaviour {
-    Dictionary<int, int> sequences;
+    Dictionary<int, int> sequence;
+    public int[] visualSequence;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
+        if (sequence != null) ApplySequences();
     }
 	
 	// Update is called once per frame
@@ -18,17 +20,17 @@ public class Mutate : MonoBehaviour {
         foreach (var picker in shapePickers) {
             // 1: Head shape
             if (picker.isHead) {
-                picker.newHeadChoice = sequences[1];
+                picker.newHeadChoice = sequence[1];
             }
             // 2: Torso shape
             if (picker.isTorso) {
-                picker.newTorsoChoice = sequences[2];
+                picker.newTorsoChoice = sequence[2];
                 // 3: Arms 
-                picker.GetComponent<Limbs>().newArmsChoice = sequences[3];
+                picker.GetComponent<Limbs>().newArmsChoice = sequence[3];
             }
             // 5: Butt/lower body shape
             if (picker.isButt) {
-                //picker.newButtChoice = sequences[5];
+                //picker.newButtChoice = sequence[5];
             }
         }
         // 4: FullBody Scaling (!head)
@@ -39,6 +41,16 @@ public class Mutate : MonoBehaviour {
         //10: Cosmetic (coloring and materials)
         //11: Name Generator
         //12: Fun factor (VFX and more)
+    }
+
+    public void SetSequence(Dictionary<int, int> sequence) {
+        visualSequence = new int[sequence.Count];
+        int i = 0;
+        foreach (var seq in sequence.Values) 
+        {
+            visualSequence[i++] = seq;
+        }
+        this.sequence = sequence;
     }
 
     void ScaleGO(Transform go, float value) {
